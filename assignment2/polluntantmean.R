@@ -1,4 +1,4 @@
-pollutantmean <- function(directory, pollutant, id = 1:332) {
+function(directory, pollutant, id = 1:332) {
         ## 'directory' is a character vector of length 1 indicating
         ## the location of the CSV files
         
@@ -12,11 +12,14 @@ pollutantmean <- function(directory, pollutant, id = 1:332) {
         ## Return the mean of the pollutant across all monitors list
         ## in the 'id' vector (ignoring NA values)
         
-        
-        for (i in id)
-        {     
-                new <- read.csv(paste(directory, "\\", formatC(i, width=3, flag="0"), ".csv", sep=""))
-                data <- rbind(data,new) 
+        data <- read.csv(paste(directory, "\\", formatC(id[1], width=3, flag="0"), ".csv", sep=""))
+        if (length(id) > 1){
+            id = id[2:length(id)]
+            for (i in id)
+            {     
+                next_sensor <- read.csv(paste(directory, "\\", formatC(i, width=3, flag="0"), ".csv", sep=""))
+                data <- rbind(data,next_sensor) 
+            }
         }
         mean = mean(data[,pollutant],na.rm=TRUE)
         mean
