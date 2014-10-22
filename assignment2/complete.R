@@ -12,4 +12,21 @@ complete <- function(directory, id = 1:332) {
         ## ...
         ## where 'id' is the monitor ID number and 'nobs' is the
         ## number of complete cases
+        
+        read_monitor_data <- function (m_id)
+        {
+                mon_data <- read.csv(paste(directory, "\\", formatC(m_id, width=3, flag="0"), ".csv", sep=""))
+                mon_data
+        }    
+        
+        complete_info <- data.frame(id=numeric(0), nobs=numeric(0))
+        
+        for (i in id)
+        {     
+                #data <- read.csv(paste(directory, "\\", formatC(i, width=3, flag="0"), ".csv", sep=""))
+                data <- read_monitor_data(i)
+                complete_info[nrow(complete_info)+1, ] <- c(i, nrow(data[complete.cases(data),]))
+        }
+        
+        complete_info
 }
