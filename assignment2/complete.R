@@ -27,6 +27,5 @@ complete <- function(directory, id = 1:332) {
                 data <- read_monitor_data(i)
                 complete_info[nrow(complete_info)+1, ] <- c(i, nrow(data[complete.cases(data),]))
         }
-        
         complete_info
 }
